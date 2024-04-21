@@ -8,9 +8,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         StringBuilder fileContent = new StringBuilder();
-        Database database = new Database(); // Create Database instance
+        Database database = new Database();
 
-        // Create CommandCenter instance with Database and fileContent
         CommandCenter commandCenter = new CommandCenter(fileContent, database);
         Scanner scanner = new Scanner(System.in);
 
@@ -24,9 +23,24 @@ public class Main {
             String commandName = tokens[0];
             String parameter = tokens.length > 1 ? tokens[1] : "";
 
-            // Прочетете името на файла от конзолата
             if (commandName.equals("load")) {
                 System.out.print("Enter the XML file name: ");
+                parameter = scanner.nextLine();
+            }
+
+            if (commandName.equals("open")) {
+                System.out.println("Opening file: " + parameter);
+            }
+
+            // Add handling for describe command
+            if (commandName.equals("describe")) {
+                System.out.print("Enter the table name: ");
+                parameter = scanner.nextLine();
+            }
+
+            // Add handling for print command
+            if (commandName.equals("print")) {
+                System.out.print("Enter the table name: ");
                 parameter = scanner.nextLine();
             }
 

@@ -11,11 +11,22 @@ public class Database {
     }
 
     public void addTable(Table table) {
-        tables.add(table);
+        if (!tables.contains(table)) {
+            tables.add(table);
+        }
     }
 
     public List<Table> getTables() {
         return tables;
+    }
+
+    public List<Row> getRows(String tableName) {
+        for (Table table : tables) {
+            if (table.getName().equals(tableName)) {
+                return table.getRows();
+            }
+        }
+        return null; // Ако таблицата със съответното име не съществува
     }
 
     @Override

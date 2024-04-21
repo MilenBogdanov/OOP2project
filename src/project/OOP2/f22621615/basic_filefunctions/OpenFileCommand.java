@@ -27,19 +27,21 @@ public class OpenFileCommand implements Command, FileCommand {
 
         try {
             File file = new File(fileName);
-            if (file.exists()) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        fileContent.append(line).append("\n");
-                    }
-                    System.out.println("Successfully opened " + file.getName());
-                    fileOpened = true;
-                }
-            } else {
+            if (!file.exists()) {
                 // Create the file if it doesn't exist
                 file.createNewFile();
                 System.out.println("File not found. Created a new empty file.");
+            }
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    fileContent.append(line).append("\n");
+                }
+                if (!fileOpened) { // Print the success message only once
+                    System.out.println("Successfully opened " + file.getName());
+                    fileOpened = true;
+                }
             }
         } catch (IOException e) {
             System.out.println("Error opening/creating the file: " + e.getMessage());

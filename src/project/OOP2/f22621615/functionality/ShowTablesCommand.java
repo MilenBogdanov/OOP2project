@@ -18,13 +18,6 @@ public class ShowTablesCommand implements Command {
 
         for (Table table : database.getTables()) {
             System.out.println("Table: " + table.getName());
-            System.out.println("Columns:");
-
-            for (Column column : table.getColumns()) {
-                System.out.println("  - " + column.getName() + ": " + column.getType());
-            }
-
-            System.out.println(); // Add a blank line between tables
         }
     }
 }
