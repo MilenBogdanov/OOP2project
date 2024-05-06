@@ -35,24 +35,11 @@ public class SelectCommand implements Command {
             System.out.println("Table '" + tableName + "' not found.");
         }
     }
-    /*@Override
-    public void execute() {
-        Table table = database.getTableByName(tableName);
-        if (table != null) {
-            List<Row> rows = table.getRows();
-            System.out.println("Rows from table " + tableName + " where column " + columnName + " has value '" + value + "':");
-            for (Row row : rows) {
-                if (rowContainsValue(row, columnName, value)) {
-                    System.out.println("| first_name: " + row.getValue("first_name") + " | last_name: " + row.getValue("last_name") + " | id: " + row.getValue("id") + " | salary: " + row.getValue("salary") + " |");
-                }
-            }
-        } else {
-            System.out.println("Table '" + tableName + "' not found.");
-        }
-    }*/
 
     private boolean rowContainsValue(Row row, String columnName, String value) {
-        return row.getValue(columnName).equals(value); // Use column name instead of index
+        Object columnValue = row.getValue(columnName);
+        // Check if the column value is not null before comparing
+        return columnValue != null && columnValue.equals(value);
     }
     public void setColumnName(String columnName) {
         this.columnName = columnName;

@@ -5,6 +5,7 @@ import project.OOP2.f22621615.database.Database;
 import project.OOP2.f22621615.database.Row;
 import project.OOP2.f22621615.database.Table;
 import project.OOP2.f22621615.interfaces.Command;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class UpdateCommand implements Command {
     private Object searchColumnValue;
     private String targetColumnName;
     private Object targetColumnValue;
+    private String fileName; // Filename instance variable
 
     public UpdateCommand(Database database, String tableName, String searchColumnName, Object searchColumnValue, String targetColumnName, Object targetColumnValue) {
         this.database = database;
@@ -26,6 +28,11 @@ public class UpdateCommand implements Command {
         this.searchColumnValue = searchColumnValue;
         this.targetColumnName = targetColumnName;
         this.targetColumnValue = targetColumnValue;
+    }
+
+    // Method to set the filename
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     @Override
@@ -40,19 +47,19 @@ public class UpdateCommand implements Command {
                 Object value = row.getValue(searchColumnName);
                 if (value != null && value.equals(searchColumnValue)) {
                     // Update the target column value
-                    row.addValue(targetColumnName, targetColumnValue);
+                    row.setValue(targetColumnName, targetColumnValue); // Update without converting to string
                     updatedRows.add(row);
                     updated = true;
                 }
             }
             if (updated) {
-                // Update the table with the updated rows
+                // Save the updated rows back to the table
                 for (Row updatedRow : updatedRows) {
                     table.updateRow(updatedRow);
                 }
-                System.out.println("Rows updated successfully.");
                 // Save the updated table to the text file
-                saveTableToFile(table);
+                saveTableToFile(table, fileName); // Use the filename instance variable
+                System.out.println("Rows updated successfully and saved to file: " + fileName);
             } else {
                 System.out.println("No rows found matching the search criteria.");
             }
@@ -61,8 +68,8 @@ public class UpdateCommand implements Command {
         }
     }
 
-    private void saveTableToFile(Table table) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tableName + ".txt"))) {
+    private void saveTableToFile(Table table, String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             // Write table schema
             writer.write("TableName: " + table.getName());
             writer.newLine();
@@ -79,7 +86,6 @@ public class UpdateCommand implements Command {
                 writer.write(row.toString());
                 writer.newLine();
             }
-            System.out.println("Table saved to file: " + tableName + ".txt");
         } catch (IOException e) {
             System.out.println("Error saving table to file: " + e.getMessage());
         }

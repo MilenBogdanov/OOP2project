@@ -1,5 +1,6 @@
 package project.OOP2.f22621615.basic_filefunctions;
 
+import project.OOP2.f22621615.database.Column;
 import project.OOP2.f22621615.enums.DataType;
 import project.OOP2.f22621615.functionality.*;
 import project.OOP2.f22621615.interfaces.Command;
@@ -8,6 +9,7 @@ import project.OOP2.f22621615.database.Database;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class CommandCenter {
     private StringBuilder fileContent;
@@ -15,6 +17,18 @@ public class CommandCenter {
     private OpenFileCommand openFileCommand;
     private Database database;
     private String lastLoadedFile; // Store the last loaded file
+
+    private Object parseColumnValue(String value, DataType dataType) {
+        switch (dataType) {
+            case INTEGER:
+                return Integer.parseInt(value);
+            case FLOAT:
+                return Float.parseFloat(value);
+            case STRING:
+            default:
+                return value;
+        }
+    }
 
     public CommandCenter(StringBuilder fileContent, Database database) {
         this.fileContent = fileContent;
@@ -39,7 +53,6 @@ public class CommandCenter {
         commands.put("select", new SelectCommand(database, null, null, null)); // Add select command
         commands.put("addcolumn", new AddColumnCommand(database, null, null, null, null)); // Add addcolumn command
         commands.put("update", new UpdateCommand(database, null, null, null, null, null)); // Add update command
-        commands.put("delete", new DeleteCommand(database, null, null, null)); // Add delete command
     }
 
     public void executeCommand(String commandName, String parameter) {
@@ -110,32 +123,58 @@ public class CommandCenter {
                 }
             }
 
+            if (commandName.equals("select")) {
+                SelectCommand selectCommand = (SelectCommand) command;
+                String[] params = parameter.split("\\s+");
+                if (params.length == 3) {
+                    selectCommand.setColumnName(params[0]);
+                    selectCommand.setValue(params[1]);
+                    selectCommand.setTableName(params[2]);
+                } else {
+                    System.out.println("Invalid parameters. Usage: select <column_name> <value> <table_name>");
+                    return;
+                }
+            }
+
             if (commandName.equals("update")) {
                 UpdateCommand updateCommand = (UpdateCommand) command;
                 String[] params = parameter.split("\\s+");
                 if (params.length == 5) {
                     updateCommand.setTableName(params[0]);
                     updateCommand.setSearchColumnName(params[1]);
-                    // Here you can add logic to determine the DataType based on the input
-                    updateCommand.setSearchColumnValue(params[2]);
+
+                    // Get the data type of the search column
+                    Column searchColumn = database.getTableByName(params[0]).getColumn(params[1]);
+                    Object searchColumnValue = parseColumnValue(params[2], searchColumn.getType());
+                    if (searchColumnValue != null) {
+                        updateCommand.setSearchColumnValue(searchColumnValue);
+                    } else {
+                        System.out.println("Invalid search column value: " + params[2]);
+                        return;
+                    }
+
                     updateCommand.setTargetColumnName(params[3]);
-                    // Here you can add logic to determine the DataType based on the input
-                    updateCommand.setTargetColumnValue(params[4]);
+
+                    // Get the data type of the target column
+                    Column targetColumn = database.getTableByName(params[0]).getColumn(params[3]);
+                    Object targetColumnValue = parseColumnValue(params[4], targetColumn.getType());
+                    if (targetColumnValue != null) {
+                        updateCommand.setTargetColumnValue(targetColumnValue);
+                    } else {
+                        System.out.println("Invalid target column value: " + params[4]);
+                        return;
+                    }
+
+                    // Prompt the user to enter the filename
+                    System.out.print("Enter the filename to save the updated table: ");
+                    Scanner scanner = new Scanner(System.in);
+                    String fileName = scanner.nextLine();
+                    updateCommand.setFileName(fileName);
+
+                    // Execute the command
+                    //updateCommand.execute();
                 } else {
                     System.out.println("Invalid parameters. Usage: update <tableName> <searchColumnName> <searchColumnValue> <targetColumnName> <targetColumnValue>");
-                    return;
-                }
-            }
-
-            if (commandName.equals("delete")) {
-                DeleteCommand deleteCommand = (DeleteCommand) command;
-                String[] params = parameter.split("\\s+");
-                if (params.length == 3) {
-                    deleteCommand.setTableName(params[0]);
-                    deleteCommand.setSearchColumnName(params[1]);
-                    deleteCommand.setSearchColumnValue(params[2]);
-                } else {
-                    System.out.println("Invalid parameters. Usage: delete <tableName> <searchColumnName> <searchColumnValue>");
                     return;
                 }
             }

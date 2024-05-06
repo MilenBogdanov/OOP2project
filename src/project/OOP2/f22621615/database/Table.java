@@ -68,11 +68,20 @@ public class Table {
         return name + ".txt";
     }
 
+    public Column getColumn(String columnName) {
+        for (Column column : columns) {
+            if (column.getName().equals(columnName)) {
+                return column;
+            }
+        }
+        return null; // Column not found
+    }
+
     public void updateRow(Row updatedRow) {
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
-            // Check if the row IDs match
-            if (row.getValue("id").equals(updatedRow.getValue("id"))) {
+            // Check if the search column values match
+            if (row.equals(updatedRow)) {
                 // Replace the old row with the updated row
                 rows.set(i, updatedRow);
                 return;

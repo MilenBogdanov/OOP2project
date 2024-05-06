@@ -144,18 +144,18 @@ public class Main {
                 }
             }
 
-            if (commandName.equals("delete")) {
-                System.out.print("Enter the table name, search column name, and search column value separated by space: ");
-                String[] params = scanner.nextLine().split("\\s+");
-                if (params.length == 3) {
-                    // Execute the command with the updated parameters
-                    commandCenter.executeCommand(commandName, params[0] + " " + params[1] + " " + params[2]);
-                } else {
-                    System.out.println("Invalid input. Please enter the table name, search column name, and search column value separated by space.");
-                    continue; // Restart the loop to prompt for the next command
-                }
-                continue; // Restart the loop to prompt for the next command
-            }
+//            if (commandName.equals("delete")) {
+//                System.out.print("Enter the table name, search column name, and search column value separated by space: ");
+//                String[] params = scanner.nextLine().split("\\s+");
+//                if (params.length == 3) {
+//                    // Execute the command with the updated parameters
+//                    commandCenter.executeCommand(commandName, params[0] + " " + params[1] + " " + params[2]);
+//                } else {
+//                    System.out.println("Invalid input. Please enter the table name, search column name, and search column value separated by space.");
+//                    continue; // Restart the loop to prompt for the next command
+//                }
+//                continue; // Restart the loop to prompt for the next command
+//            }
 
             // Execute the command with the updated parameter
             commandCenter.executeCommand(commandName, parameter);
@@ -166,4 +166,4 @@ public class Main {
         }
         scanner.close();
     }
-} //continue with next bullshit update
+}//delete

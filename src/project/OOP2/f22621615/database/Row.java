@@ -19,6 +19,10 @@ public class Row {
         return values.get(columnName);
     }
 
+    public void setValue(String columnName, Object value) {
+        values.put(columnName, value);
+    }
+
     public Set<String> getColumnNames() {
         return values.keySet();
     }

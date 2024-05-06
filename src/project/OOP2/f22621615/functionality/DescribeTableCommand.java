@@ -56,8 +56,6 @@ public class DescribeTableCommand implements Command {
                 System.out.println(dataType);
             }
             System.out.println("----------------------------------------------------------");
-        } else {
-            System.out.println("Table '" + tableName + "' not found.");
         }
     }
 }
