@@ -43,4 +43,40 @@ public class Table {
                 ", rows=" + rows + // Include rows in the string representation
                 '}';
     }
+
+    public List<String> getColumnNames() {
+        List<String> columnNames = new ArrayList<>();
+        for (Column column : columns) {
+            columnNames.add(column.getName());
+        }
+        return columnNames;
+    }
+
+    public String getColumnType(String columnName) {
+        for (Column column : columns) {
+            if (column.getName().equals(columnName)) {
+                return String.valueOf(column.getType());
+            }
+        }
+        return null; // Return null if column not found
+    }
+
+    public String getAssociatedTextFile() {
+        // Implement this method based on your project structure
+        // Return the associated text file name for this table
+        // For example:
+        return name + ".txt";
+    }
+
+    public void updateRow(Row updatedRow) {
+        for (int i = 0; i < rows.size(); i++) {
+            Row row = rows.get(i);
+            // Check if the row IDs match
+            if (row.getValue("id").equals(updatedRow.getValue("id"))) {
+                // Replace the old row with the updated row
+                rows.set(i, updatedRow);
+                return;
+            }
+        }
+    }
 }

@@ -1,12 +1,14 @@
 package project.OOP2.f22621615.database;
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Row {
     private Map<String, Object> values;
 
     public Row() {
-        this.values = new HashMap<>();
+        this.values = new LinkedHashMap<>();
     }
 
     public void addValue(String columnName, Object value) {
@@ -17,13 +19,18 @@ public class Row {
         return values.get(columnName);
     }
 
+    public Set<String> getColumnNames() {
+        return values.keySet();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("| ");
-        for (Map.Entry<String, Object> entry : values.entrySet()) {
-            sb.append(entry.getKey()).append(": ").append(entry.getValue()).append(" | ");
+        // Iterate over column names to ensure the correct order
+        for (String columnName : getColumnNames()) {
+            Object value = values.get(columnName);
+            sb.append(value != null ? value : "null").append(" ");
         }
-        return sb.toString();
+        return sb.toString().trim();
     }
 }

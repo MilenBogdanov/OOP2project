@@ -1,13 +1,14 @@
 package project.OOP2.f22621615.functionality;
 
-/*import project.OOP2.f22621615.database.Database;
+import project.OOP2.f22621615.database.Column;
+import project.OOP2.f22621615.database.Database;
 import project.OOP2.f22621615.database.Row;
 import project.OOP2.f22621615.database.Table;
 import project.OOP2.f22621615.interfaces.Command;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 public class ExportTableCommand implements Command {
     private Database database;
@@ -24,18 +25,38 @@ public class ExportTableCommand implements Command {
     public void execute() {
         Table table = database.getTableByName(tableName);
         if (table != null) {
-            List<Row> rows = table.getRows();
-            try (FileWriter writer = new FileWriter(fileName)) {
-                // Write table data to the file
-                for (Row row : rows) {
-                    writer.write(row.toString() + System.lineSeparator());
-                }
-                System.out.println("Table '" + tableName + "' exported to file '" + fileName + "'.");
-            } catch (IOException e) {
-                System.out.println("Error exporting table to file: " + e.getMessage());
-            }
+            exportTable(table);
         } else {
             System.out.println("Table '" + tableName + "' not found.");
+        }
+    }
+
+    private void exportTable(Table table) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            // Write table name
+            writer.write("TableName: " + table.getName() + "\n");
+
+            // Write column names
+            for (Column column : table.getColumns()) {
+                writer.write(column.getName() + " ");
+            }
+            writer.write("\n");
+
+            // Write row data
+            for (Row row : table.getRows()) {
+                StringBuilder rowString = new StringBuilder();
+                for (Column column : table.getColumns()) {
+                    String value = String.valueOf(row.getValue(column.getName()));
+                    if (value != null) {
+                        rowString.append(value).append(" ");
+                    }
+                }
+                writer.write(rowString.toString().trim() + "\n");
+            }
+
+            System.out.println("Table '" + tableName + "' exported successfully to file: " + fileName);
+        } catch (IOException e) {
+            System.out.println("Error exporting table: " + e.getMessage());
         }
     }
 
@@ -47,4 +68,3 @@ public class ExportTableCommand implements Command {
         this.fileName = fileName;
     }
 }
-*/
