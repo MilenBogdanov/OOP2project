@@ -5,24 +5,26 @@ import project.OOP2.f22621615.interfaces.Command;
 public class PrintHelpCommand implements Command {
     @Override
     public void execute() {
-        System.out.println("-----------------------------------------------------------------------------------------");
-        System.out.println("THE FOLLOWING COMMANDS ARE SUPPORTED:");
-        System.out.println("open <file>\t\topens <file>");
-
-        System.out.println("load <file>\t\tloads table from <file>"); //1
-        System.out.println("showtables\t\tshows names of loaded tables"); //2
-        System.out.println("describe\t\tdescribe the types of the columns in the table"); //3
-        System.out.println("print\t\tdisplays all rows from a given table"); //4
-        System.out.println("export \t\t<table> <file> exports a table to a file"); //5
-        System.out.println("select \t\t<column name> <value> <table name> searches for a selected value"); //6
-        System.out.println("addcolumn \t\t<table name> <column name> <column type> add column with null value"); //7
-        System.out.println("update \t\tupdates a column of the table"); //7
-
-        System.out.println("close\t\t\tcloses currently opened file");
-        System.out.println("save\t\t\tsaves the currently open file");
-        System.out.println("saveas <file>\t\tsaves the currently open file in <file>");
-        System.out.println("help\t\t\tprints this information");
-        System.out.println("exit\t\t\texits the program");
-        System.out.println("-----------------------------------------------------------------------------------------");
+        System.out.println("|-------------------------------------------------------------------------------------------|");
+        System.out.println("| THE FOLLOWING COMMANDS ARE SUPPORTED:                                                     |");
+        System.out.println("|---------------|---------------------------------------------------------------------------|");
+        System.out.println("| Command:      | Description:                                                              |");
+        System.out.println("|---------------|---------------------------------------------------------------------------|");
+        System.out.println("| open <file>   | Opens <file>.                                                             |");
+        System.out.println("| load <file>   | Loads table from <file>.                                                  |");//1
+        System.out.println("| showtables    | Shows names of loaded tables.                                             |");//2
+        System.out.println("| describe      | Describes the types of the columns in the table.                          |");//3
+        System.out.println("| print         | Displays all rows from a given table.                                     |");//4
+        System.out.println("| export        | <table> <file> Exports a table to a file.                                 |");//5
+        System.out.println("| select        | <column name> <value> <table name> Searches for a selected value.         |");//6
+        System.out.println("| addcolumn     | <table name> <column name> <column type> Adds column with null value.     |");//7
+        System.out.println("| update        | Updates a column of the table.                                            |");//8
+        System.out.println("| delete        | Deletes rows of the table that have a specified value of the column.      |");//9
+        System.out.println("| close         | Closes currently opened file.                                             |");
+        System.out.println("| save          | Saves the currently open file.                                            |");
+        System.out.println("| saveas <file> | Saves the currently open file in <file>.                                  |");
+        System.out.println("| help          | Prints this information.                                                  |");
+        System.out.println("| exit          | Exits the program.                                                        |");
+        System.out.println("|-------------------------------------------------------------------------------------------|");
     }
 }

@@ -53,6 +53,7 @@ public class CommandCenter {
         commands.put("select", new SelectCommand(database, null, null, null)); // Add select command
         commands.put("addcolumn", new AddColumnCommand(database, null, null, null, null)); // Add addcolumn command
         commands.put("update", new UpdateCommand(database, null, null, null, null, null)); // Add update command
+        commands.put("delete", new DeleteCommand(database, null, null, null));
     }
 
     public void executeCommand(String commandName, String parameter) {
@@ -177,6 +178,28 @@ public class CommandCenter {
                     System.out.println("Invalid parameters. Usage: update <tableName> <searchColumnName> <searchColumnValue> <targetColumnName> <targetColumnValue>");
                     return;
                 }
+            }
+
+            if (commandName.equals("delete")) {
+                // Retrieve the delete command from the commands map
+                DeleteCommand deleteCommand = (DeleteCommand) commands.get("delete");
+
+                // Parse the parameter to extract table name, search column name, and search column value
+                String[] params = parameter.split("\\s+");
+                if (params.length == 3) {
+                    deleteCommand.setTableName(params[0]);
+                    deleteCommand.setSearchColumnName(params[1]);
+
+                    // Here you can add logic to determine the DataType based on the input
+                    // For simplicity, let's assume the search column value is always a string
+                    deleteCommand.setSearchColumnValue(params[2]);
+
+                    // Execute the delete command
+                    deleteCommand.execute();
+                } else {
+                    System.out.println("Invalid parameters. Usage: delete <tableName> <searchColumnName> <searchColumnValue>");
+                }
+                return;
             }
 
             command.execute();
