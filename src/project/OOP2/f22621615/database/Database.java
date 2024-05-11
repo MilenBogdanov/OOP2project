@@ -29,6 +29,16 @@ public class Database {
         return null; // Ако таблицата със съответното име не съществува
     }
 
+    public boolean tableExists(String tableName) {
+        for (Table table : tables) {
+            if (table.getName().equals(tableName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     @Override
     public String toString() {
         return "Database{" +

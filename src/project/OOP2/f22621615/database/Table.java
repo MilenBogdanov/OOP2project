@@ -62,9 +62,6 @@ public class Table {
     }
 
     public String getAssociatedTextFile() {
-        // Implement this method based on your project structure
-        // Return the associated text file name for this table
-        // For example:
         return name + ".txt";
     }
 
@@ -87,5 +84,9 @@ public class Table {
                 return;
             }
         }
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

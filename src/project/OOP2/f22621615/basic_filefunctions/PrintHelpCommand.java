@@ -20,6 +20,8 @@ public class PrintHelpCommand implements Command {
         System.out.println("| addcolumn     | <table name> <column name> <column type> Adds column with null value.     |");//7
         System.out.println("| update        | Updates a column of the table.                                            |");//8
         System.out.println("| delete        | Deletes rows of the table that have a specified value of the column.      |");//9
+        System.out.println("| insert        | Inserts a new row in the table with the corresponding values.             |");//10
+        System.out.println("| rename        | Renames a table.                                                          |");//11
         System.out.println("| close         | Closes currently opened file.                                             |");
         System.out.println("| save          | Saves the currently open file.                                            |");
         System.out.println("| saveas <file> | Saves the currently open file in <file>.                                  |");

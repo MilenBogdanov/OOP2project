@@ -1,12 +1,14 @@
 package project.OOP2.f22621615.basic_filefunctions;
 
 import project.OOP2.f22621615.database.Column;
+import project.OOP2.f22621615.database.Table;
 import project.OOP2.f22621615.enums.DataType;
 import project.OOP2.f22621615.functionality.*;
 import project.OOP2.f22621615.interfaces.Command;
 import project.OOP2.f22621615.interfaces.FileCommand;
 import project.OOP2.f22621615.database.Database;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -54,6 +56,8 @@ public class CommandCenter {
         commands.put("addcolumn", new AddColumnCommand(database, null, null, null, null)); // Add addcolumn command
         commands.put("update", new UpdateCommand(database, null, null, null, null, null)); // Add update command
         commands.put("delete", new DeleteCommand(database, null, null, null));
+        commands.put("insert", new InsertCommand(database, null, null)); // Add insert command
+        commands.put("rename", new RenameTableCommand(database, null, null)); // Add rename command
     }
 
     public void executeCommand(String commandName, String parameter) {
@@ -200,6 +204,44 @@ public class CommandCenter {
                     System.out.println("Invalid parameters. Usage: delete <tableName> <searchColumnName> <searchColumnValue>");
                 }
                 return;
+            }
+            if (commandName.equals("insert")) {
+                InsertCommand insertCommand = (InsertCommand) command;
+                String[] params = parameter.split("\\s+");
+                if (params.length >= 2) {
+                    String tableName = params[0];
+                    Table table = database.getTableByName(tableName);
+                    if (table != null) {
+                        String[] values = Arrays.copyOfRange(params, 1, params.length);
+                        insertCommand.setTableName(tableName);
+                        insertCommand.setValues(values);
+                        insertCommand.execute();
+                    } else {
+                        System.out.println("Table '" + tableName + "' not found.");
+                    }
+                } else {
+                    System.out.println("Invalid parameters. Usage: insert <tableName> <value1> <value2> ... <valueN>");
+                }
+                return;
+            }
+
+            if (commandName.equals("rename")) {
+                RenameTableCommand renameCommand = (RenameTableCommand) command;
+                String[] params = parameter.split("\\s+");
+                if (params.length == 2) {
+                    String oldTableName = params[0];
+                    String newTableName = params[1];
+                    if (database.tableExists(oldTableName)) {
+                        renameCommand.setOldName(oldTableName);
+                        renameCommand.setNewName(newTableName);
+                        renameCommand.execute();
+                    } else {
+                        System.out.println("Table '" + oldTableName + "' not found.");
+                    }
+                } else {
+                    System.out.println("Invalid parameters. Usage: rename <oldTableName> <newTableName>");
+                    return;
+                }
             }
 
             command.execute();
