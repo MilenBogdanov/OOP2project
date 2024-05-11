@@ -31,13 +31,13 @@ public class DescribeTableCommand implements Command {
             List<Column> columns = table.getColumns();
             for (Column column : columns) {
                 String columnName = column.getName();
-                String dataTypeStr = column.getType().toString(); // convert DataType to string
+                String dataTypeStr = column.getType().toString();
                 int typeStart = 0;
-                int typeEnd = dataTypeStr.indexOf("("); // find the position of the opening parenthesis
+                int typeEnd = dataTypeStr.indexOf("(");
                 if (typeEnd == -1) {
-                    typeEnd = dataTypeStr.length(); // if no opening parenthesis, assume the whole string is the data type
+                    typeEnd = dataTypeStr.length();
                 }
-                String parsedDataTypeStr = dataTypeStr.substring(typeStart, typeEnd); // extract the data type string
+                String parsedDataTypeStr = dataTypeStr.substring(typeStart, typeEnd);
                 System.out.printf("%s - ", columnName);
                 DataType dataType;
                 if (parsedDataTypeStr.equals("INTEGER")) {

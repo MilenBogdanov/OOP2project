@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class SaveFileCommand implements Command, FileCommand {
-    private OpenFileCommand openFileCommand; // Reference to the OpenFileCommand instance
+    private OpenFileCommand openFileCommand;
     private StringBuilder fileContent;
 
     public SaveFileCommand(OpenFileCommand openFileCommand, StringBuilder fileContent) {
@@ -19,7 +19,6 @@ public class SaveFileCommand implements Command, FileCommand {
 
     @Override
     public void setFileName(String fileName) {
-        // No need to set file name here as it's retrieved from the OpenFileCommand instance
     }
 
     @Override

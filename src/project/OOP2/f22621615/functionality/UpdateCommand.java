@@ -19,7 +19,7 @@ public class UpdateCommand implements Command {
     private Object searchColumnValue;
     private String targetColumnName;
     private Object targetColumnValue;
-    private String fileName; // Filename instance variable
+    private String fileName;
 
     public UpdateCommand(Database database, String tableName, String searchColumnName, Object searchColumnValue, String targetColumnName, Object targetColumnValue) {
         this.database = database;
@@ -30,7 +30,6 @@ public class UpdateCommand implements Command {
         this.targetColumnValue = targetColumnValue;
     }
 
-    // Method to set the filename
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
@@ -40,25 +39,20 @@ public class UpdateCommand implements Command {
         Table table = database.getTableByName(tableName);
         if (table != null) {
             boolean updated = false;
-            // Get the rows of the table
             List<Row> updatedRows = new ArrayList<>();
             for (Row row : table.getRows()) {
-                // Check if the search column value matches
                 Object value = row.getValue(searchColumnName);
                 if (value != null && value.equals(searchColumnValue)) {
-                    // Update the target column value
-                    row.setValue(targetColumnName, targetColumnValue); // Update without converting to string
+                    row.setValue(targetColumnName, targetColumnValue);
                     updatedRows.add(row);
                     updated = true;
                 }
             }
             if (updated) {
-                // Save the updated rows back to the table
                 for (Row updatedRow : updatedRows) {
                     table.updateRow(updatedRow);
                 }
-                // Save the updated table to the text file
-                saveTableToFile(table, fileName); // Use the filename instance variable
+                saveTableToFile(table, fileName);
                 System.out.println("Rows updated successfully and saved to file: " + fileName);
             } else {
                 System.out.println("No rows found matching the search criteria.");
@@ -70,7 +64,6 @@ public class UpdateCommand implements Command {
 
     private void saveTableToFile(Table table, String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            // Write table schema
             writer.write("TableName: " + table.getName());
             writer.newLine();
             writer.write("Columns:");
@@ -81,7 +74,6 @@ public class UpdateCommand implements Command {
             }
             writer.write("Rows:");
             writer.newLine();
-            // Write table rows
             for (Row row : table.getRows()) {
                 writer.write(row.toString());
                 writer.newLine();

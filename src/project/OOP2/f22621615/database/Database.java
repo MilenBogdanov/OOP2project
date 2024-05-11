@@ -26,7 +26,7 @@ public class Database {
                 return table.getRows();
             }
         }
-        return null; // Ако таблицата със съответното име не съществува
+        return null;
     }
 
     public boolean tableExists(String tableName) {
@@ -52,6 +52,6 @@ public class Database {
                 return table;
             }
         }
-        return null; // If table with the given name is not found
+        return null;
     }
 }

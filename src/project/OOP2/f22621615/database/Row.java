@@ -30,7 +30,6 @@ public class Row {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        // Iterate over column names to ensure the correct order
         for (String columnName : getColumnNames()) {
             Object value = values.get(columnName);
             sb.append(value != null ? value : "null").append(" ");

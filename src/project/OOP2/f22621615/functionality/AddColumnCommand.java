@@ -29,21 +29,17 @@ public class AddColumnCommand implements Command {
     public void execute() {
         Table table = database.getTableByName(tableName);
         if (table != null) {
-            // Check if the column already exists
             boolean columnExists = table.getColumns().stream().anyMatch(c -> c.getName().equals(columnName));
             if (columnExists) {
                 System.out.println("Column '" + columnName + "' already exists in table '" + tableName + "'.");
             } else {
-                // Add the new column
                 Column newColumn = new Column(columnName, columnType);
                 table.addColumn(newColumn);
 
-                // Update existing rows with default values for the new column
                 for (Row row : table.getRows()) {
                     row.addValue(columnName, null);
                 }
 
-                // Update the text file
                 updateTextFile(table);
 
                 System.out.println("Column '" + columnName + "' added successfully to table '" + tableName + "'.");
@@ -53,24 +49,21 @@ public class AddColumnCommand implements Command {
         }
     }
 
-    // Method to get the default value based on the column type
     private Object getDefaultValue(DataType dataType) {
         switch (dataType) {
             case INTEGER:
-                return 0; // Default value for INTEGER type
+                return 0;
             case STRING:
-                return ""; // Default value for STRING type
+                return "";
             case FLOAT:
-                return 0.0; // Default value for FLOAT type
+                return 0.0;
             default:
                 return null;
         }
     }
 
-    // Method to update the text file with the new table structure
     private void updateTextFile(Table table) {
         try (FileWriter writer = new FileWriter(fileName)) {
-            // Write the table structure to the text file
             writer.write("TableName: " + table.getName() + "\n");
             writer.write("Columns:\n");
             for (Column column : table.getColumns()) {
@@ -91,7 +84,6 @@ public class AddColumnCommand implements Command {
         }
     }
 
-    // Setter methods for table name, column name, and column type
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }

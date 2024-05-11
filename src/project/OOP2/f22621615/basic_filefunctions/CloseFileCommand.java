@@ -12,7 +12,7 @@ public class CloseFileCommand implements Command {
     @Override
     public void execute() {
         if (fileContent.length() >= 0) {
-            fileContent.setLength(0); // Clear the file content
+            fileContent.setLength(0);
             System.out.println("Successfully closed the file.");
         } else {
             System.out.println("No file is currently open.");

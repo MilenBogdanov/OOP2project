@@ -9,13 +9,13 @@ import java.util.List;
 
 public class SelectCommand implements Command {
     private final Database database;
-    private String columnName; // Modify to store the column name instead of index
+    private String columnName;
     private String value;
     private String tableName;
 
     public SelectCommand(Database database, String columnName, String value, String tableName) {
         this.database = database;
-        this.columnName = columnName; // Store the column name
+        this.columnName = columnName;
         this.value = value;
         this.tableName = tableName;
     }
@@ -38,7 +38,6 @@ public class SelectCommand implements Command {
 
     private boolean rowContainsValue(Row row, String columnName, String value) {
         Object columnValue = row.getValue(columnName);
-        // Check if the column value is not null before comparing
         return columnValue != null && columnValue.equals(value);
     }
     public void setColumnName(String columnName) {

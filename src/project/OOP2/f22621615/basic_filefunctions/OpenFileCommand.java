@@ -11,11 +11,11 @@ import java.io.IOException;
 public class OpenFileCommand implements Command, FileCommand {
     private String fileName;
     private StringBuilder fileContent;
-    private boolean fileOpened; // Flag to track whether a file is opened
+    private boolean fileOpened;
 
     public OpenFileCommand(StringBuilder fileContent) {
         this.fileContent = fileContent;
-        this.fileOpened = false; // Initially no file is opened
+        this.fileOpened = false;
     }
 
     @Override
@@ -28,7 +28,6 @@ public class OpenFileCommand implements Command, FileCommand {
         try {
             File file = new File(fileName);
             if (!file.exists()) {
-                // Create the file if it doesn't exist
                 file.createNewFile();
                 System.out.println("File not found. Created a new empty file.");
             }
@@ -38,7 +37,7 @@ public class OpenFileCommand implements Command, FileCommand {
                 while ((line = reader.readLine()) != null) {
                     fileContent.append(line).append("\n");
                 }
-                if (!fileOpened) { // Print the success message only once
+                if (!fileOpened) {
                     System.out.println("Successfully opened " + file.getName());
                     fileOpened = true;
                 }
@@ -57,7 +56,6 @@ public class OpenFileCommand implements Command, FileCommand {
         return fileName;
     }
 
-    // Method to check if a file is opened
     public boolean isFileOpened() {
         return fileOpened;
     }

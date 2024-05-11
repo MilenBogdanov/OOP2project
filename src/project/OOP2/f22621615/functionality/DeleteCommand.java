@@ -15,7 +15,7 @@ public class DeleteCommand implements Command {
     private String tableName;
     private String searchColumnName;
     private Object searchColumnValue;
-    private String fileName; // Filename instance variable
+    private String fileName;
 
     public DeleteCommand(Database database, String tableName, String searchColumnName, Object searchColumnValue) {
         this.database = database;
@@ -33,7 +33,6 @@ public class DeleteCommand implements Command {
             while (iterator.hasNext()) {
                 Row row = iterator.next();
                 Object columnValue = row.getValue(searchColumnName);
-                // Check if the column value matches the search value
                 if (columnValue != null && columnValue.equals(searchColumnValue)) {
                     iterator.remove(); // Remove the row
                     deleted = true;
@@ -53,7 +52,6 @@ public class DeleteCommand implements Command {
     private void updateFile(Table table) {
         String fileName = table.getAssociatedTextFile();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            // Write table structure
             writer.write("TableName: " + table.getName());
             writer.newLine();
             writer.write("Columns:");
@@ -64,7 +62,6 @@ public class DeleteCommand implements Command {
             }
             writer.write("Rows:");
             writer.newLine();
-            // Write table rows
             for (Row row : table.getRows()) {
                 writer.write(row.toString());
                 writer.newLine();

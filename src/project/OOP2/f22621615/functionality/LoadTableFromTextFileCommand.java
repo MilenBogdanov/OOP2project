@@ -34,7 +34,6 @@ public class LoadTableFromTextFileCommand implements Command {
                 line = line.trim();
 
                 if (line.startsWith("TableName:")) {
-                    // Extract table name
                     tableName = line.replace("TableName:", "").trim();
                     table = new Table(tableName);
                     inTable = true;
@@ -42,12 +41,10 @@ public class LoadTableFromTextFileCommand implements Command {
                 }
 
                 if (inTable && line.startsWith("Columns:")) {
-                    // Skip the "Columns:" line
                     continue;
                 }
 
                 if (inTable && line.startsWith("Rows:")) {
-                    // Start reading rows
                     List<Column> columns = table.getColumns();
                     while ((line = reader.readLine()) != null && !line.startsWith("Columns:")) {
                         // Parse row values
@@ -62,7 +59,6 @@ public class LoadTableFromTextFileCommand implements Command {
                 }
 
                 if (inTable) {
-                    // Parse column names and types
                     String[] columnData = line.split(":")[1].trim().split("\\s+");
                     for (int i = 0; i < columnData.length; i += 2) {
                         String columnName = columnData[i];
@@ -72,7 +68,6 @@ public class LoadTableFromTextFileCommand implements Command {
                 }
             }
 
-            // Add the table to the database
             if (table != null) {
                 database.addTable(table);
                 System.out.println("Table '" + tableName + "' loaded successfully from text file.");

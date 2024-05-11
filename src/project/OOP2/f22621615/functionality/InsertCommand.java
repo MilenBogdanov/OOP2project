@@ -29,7 +29,6 @@ public class InsertCommand implements Command {
                     newRow.addValue(table.getColumns().get(i).getName(), values[i]);
                 }
                 table.addRow(newRow);
-                // Optionally, update the associated text file
                 updateTextFile(table);
                 System.out.println("Row inserted successfully into table '" + tableName + "'.");
             } else {
@@ -50,10 +49,9 @@ public class InsertCommand implements Command {
             }
             newRow.append(System.lineSeparator());
 
-            // Check if the file is empty
             boolean isEmptyFile = table.getRows().isEmpty();
             if (!isEmptyFile) {
-                writer.append(System.lineSeparator());  // Add a new line if the file is not empty
+                writer.append(System.lineSeparator());
             }
 
             writer.write(newRow.toString());

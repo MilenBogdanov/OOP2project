@@ -6,12 +6,12 @@ import java.util.List;
 public class Table {
     private String name;
     private List<Column> columns;
-    private List<Row> rows; // Add rows list
+    private List<Row> rows;
 
     public Table(String name) {
         this.name = name;
         this.columns = new ArrayList<>();
-        this.rows = new ArrayList<>(); // Initialize rows list
+        this.rows = new ArrayList<>();
     }
 
     public void addColumn(Column column) {
@@ -30,7 +30,6 @@ public class Table {
         return rows;
     }
 
-    // Add method to add row to the table
     public void addRow(Row row) {
         rows.add(row);
     }
@@ -40,7 +39,7 @@ public class Table {
         return "Table{" +
                 "name='" + name + '\'' +
                 ", columns=" + columns +
-                ", rows=" + rows + // Include rows in the string representation
+                ", rows=" + rows +
                 '}';
     }
 
@@ -58,7 +57,7 @@ public class Table {
                 return String.valueOf(column.getType());
             }
         }
-        return null; // Return null if column not found
+        return null;
     }
 
     public String getAssociatedTextFile() {
@@ -71,15 +70,13 @@ public class Table {
                 return column;
             }
         }
-        return null; // Column not found
+        return null;
     }
 
     public void updateRow(Row updatedRow) {
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
-            // Check if the search column values match
             if (row.equals(updatedRow)) {
-                // Replace the old row with the updated row
                 rows.set(i, updatedRow);
                 return;
             }

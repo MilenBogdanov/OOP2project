@@ -33,16 +33,13 @@ public class ExportTableCommand implements Command {
 
     private void exportTable(Table table) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            // Write table name
             writer.write("TableName: " + table.getName() + "\n");
 
-            // Write column names
             for (Column column : table.getColumns()) {
                 writer.write(column.getName() + " ");
             }
             writer.write("\n");
 
-            // Write row data
             for (Row row : table.getRows()) {
                 StringBuilder rowString = new StringBuilder();
                 for (Column column : table.getColumns()) {

@@ -22,15 +22,11 @@ public class PrintTableRowsCommand implements Command {
             System.out.println("Rows from table " + tableName + ":");
             for (Row row : table.getRows()) {
                 StringBuilder rowString = new StringBuilder(" - ");
-                // Print the "id" column
                 rowString.append(row.getValue("id")).append(" | ");
-                // Print the "first_name" column
                 rowString.append(row.getValue("first_name")).append(" | ");
-                // Print the "last_name" column
                 rowString.append(row.getValue("last_name")).append(" | ");
-                // Print the "salary" column
                 rowString.append(row.getValue("salary"));
-                System.out.println(rowString.toString().trim()); // Trim any trailing whitespace
+                System.out.println(rowString.toString().trim());
             }
         } else {
             System.out.println("Table '" + tableName + "' not found.");

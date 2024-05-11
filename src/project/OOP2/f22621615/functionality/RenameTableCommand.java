@@ -20,10 +20,8 @@ public class RenameTableCommand implements Command {
     public void execute() {
         Table table = database.getTableByName(oldName);
         if (table != null) {
-            // Update the table name in memory
             table.setName(newName);
 
-            // Update the table name in the associated text file
             updateTableNameInFile(oldName, newName);
 
             System.out.println("Table renamed successfully from '" + oldName + "' to '" + newName + "'.");

@@ -18,7 +18,7 @@ public class CommandCenter {
     private Map<String, Command> commands;
     private OpenFileCommand openFileCommand;
     private Database database;
-    private String lastLoadedFile; // Store the last loaded file
+    private String lastLoadedFile;
 
     private Object parseColumnValue(String value, DataType dataType) {
         switch (dataType) {
@@ -42,7 +42,7 @@ public class CommandCenter {
     private void initializeCommands() {
         commands = new HashMap<>();
         commands.put("open", openFileCommand);
-        commands.put("load", new LoadTableFromTextFileCommand(database, null)); // Pass null as the file name
+        commands.put("load", new LoadTableFromTextFileCommand(database, null));
         commands.put("close", new CloseFileCommand(this.fileContent));
         commands.put("save", new SaveFileCommand(openFileCommand, this.fileContent));
         commands.put("saveas", new SaveFileAsCommand(this.fileContent, openFileCommand));
@@ -86,22 +86,22 @@ public class CommandCenter {
                     fileCommand.setFileName(parameter);
                 }
             }
-            // Pass the parameter when executing the load command
+
             if (commandName.equals("load")) {
                 LoadTableFromTextFileCommand loadCommand = (LoadTableFromTextFileCommand) command;
                 loadCommand.setFileName(parameter);
             }
-            // Pass the parameter when executing the describe command
+
             if (commandName.equals("describe")) {
                 DescribeTableCommand describeCommand = (DescribeTableCommand) command;
                 describeCommand.describe(parameter);
             }
-            // Pass the parameter when executing the print command
+
             if (commandName.equals("print")) {
                 PrintTableRowsCommand printCommand = (PrintTableRowsCommand) command;
                 printCommand.setTableName(parameter);
             }
-            // Pass the parameters when executing the export command
+
             if (commandName.equals("export")) {
                 ExportTableCommand exportCommand = (ExportTableCommand) command;
                 String[] params = parameter.split("\\s+");
@@ -119,9 +119,8 @@ public class CommandCenter {
                 if (params.length == 3) {
                     addColumnCommand.setTableName(params[0]);
                     addColumnCommand.setColumnName(params[1]);
-                    // Here you can add logic to determine the DataType based on the input
                     addColumnCommand.setColumnType(DataType.valueOf(params[2]));
-                    addColumnCommand.setFileName(lastLoadedFile); // Set the filename
+                    addColumnCommand.setFileName(lastLoadedFile);
                 } else {
                     System.out.println("Invalid parameters. Usage: addcolumn <tableName> <columnName> <columnType>");
                     return;
@@ -148,7 +147,6 @@ public class CommandCenter {
                     updateCommand.setTableName(params[0]);
                     updateCommand.setSearchColumnName(params[1]);
 
-                    // Get the data type of the search column
                     Column searchColumn = database.getTableByName(params[0]).getColumn(params[1]);
                     Object searchColumnValue = parseColumnValue(params[2], searchColumn.getType());
                     if (searchColumnValue != null) {
@@ -160,7 +158,6 @@ public class CommandCenter {
 
                     updateCommand.setTargetColumnName(params[3]);
 
-                    // Get the data type of the target column
                     Column targetColumn = database.getTableByName(params[0]).getColumn(params[3]);
                     Object targetColumnValue = parseColumnValue(params[4], targetColumn.getType());
                     if (targetColumnValue != null) {
@@ -170,14 +167,11 @@ public class CommandCenter {
                         return;
                     }
 
-                    // Prompt the user to enter the filename
                     System.out.print("Enter the filename to save the updated table: ");
                     Scanner scanner = new Scanner(System.in);
                     String fileName = scanner.nextLine();
                     updateCommand.setFileName(fileName);
 
-                    // Execute the command
-                    //updateCommand.execute();
                 } else {
                     System.out.println("Invalid parameters. Usage: update <tableName> <searchColumnName> <searchColumnValue> <targetColumnName> <targetColumnValue>");
                     return;
@@ -185,17 +179,13 @@ public class CommandCenter {
             }
 
             if (commandName.equals("delete")) {
-                // Retrieve the delete command from the commands map
                 DeleteCommand deleteCommand = (DeleteCommand) commands.get("delete");
 
-                // Parse the parameter to extract table name, search column name, and search column value
                 String[] params = parameter.split("\\s+");
                 if (params.length == 3) {
                     deleteCommand.setTableName(params[0]);
                     deleteCommand.setSearchColumnName(params[1]);
 
-                    // Here you can add logic to determine the DataType based on the input
-                    // For simplicity, let's assume the search column value is always a string
                     deleteCommand.setSearchColumnValue(params[2]);
 
                     // Execute the delete command
@@ -246,7 +236,6 @@ public class CommandCenter {
 
             command.execute();
 
-            // Remember the last loaded file
             if (commandName.equals("load")) {
                 lastLoadedFile = parameter;
             }
