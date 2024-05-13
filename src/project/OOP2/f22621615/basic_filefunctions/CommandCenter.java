@@ -49,15 +49,17 @@ public class CommandCenter {
         commands.put("help", new PrintHelpCommand());
         commands.put("exit", new ExitCommand());
         commands.put("showtables", new ShowTablesCommand(database));
-        commands.put("describe", new DescribeTableCommand(database, null)); // Add describe command
+        commands.put("describe", new DescribeTableCommand(database, null));
         commands.put("print", new PrintTableRowsCommand(database));
-        commands.put("export", new ExportTableCommand(database, null, null)); // Add export command
-        commands.put("select", new SelectCommand(database, null, null, null)); // Add select command
-        commands.put("addcolumn", new AddColumnCommand(database, null, null, null, null)); // Add addcolumn command
-        commands.put("update", new UpdateCommand(database, null, null, null, null, null)); // Add update command
+        commands.put("export", new ExportTableCommand(database, null, null));
+        commands.put("select", new SelectCommand(database, null, null, null));
+        commands.put("addcolumn", new AddColumnCommand(database, null, null, null, null));
+        commands.put("update", new UpdateCommand(database, null, null, null, null, null));
         commands.put("delete", new DeleteCommand(database, null, null, null));
-        commands.put("insert", new InsertCommand(database, null, null)); // Add insert command
-        commands.put("rename", new RenameTableCommand(database, null, null)); // Add rename command
+        commands.put("insert", new InsertCommand(database, null, null));
+        commands.put("rename", new RenameTableCommand(database, null, null));
+        commands.put("count", new CountRowsCommand(database, null, null, null));
+        commands.put("aggregate", new AggregateCommand(database));
     }
 
     public void executeCommand(String commandName, String parameter) {
@@ -233,6 +235,38 @@ public class CommandCenter {
                     return;
                 }
             }
+
+            // Handling count command
+            if (commandName.equals("count")) {
+                CountRowsCommand countRowsCommand = (CountRowsCommand) command;
+                String[] params = parameter.split("\\s+");
+                if (params.length == 3) {
+                    countRowsCommand.setTableName(params[0]);
+                    countRowsCommand.setSearchColumnName(params[1]);
+                    countRowsCommand.setSearchValue(params[2]);
+                    countRowsCommand.execute();
+                } else {
+                    System.out.println("Invalid parameters. Usage: count <tableName> <searchColumnName> <searchValue>");
+                }
+                return;
+            }
+
+            if (commandName.equals("aggregate")) {
+                AggregateCommand aggregateCommand = (AggregateCommand) command;
+                String[] params = parameter.split("\\s+");
+                if (params.length == 5) {
+                    aggregateCommand.setTableName(params[0]);
+                    aggregateCommand.setSearchColumnName(params[1]);
+                    aggregateCommand.setSearchValue(params[2]);
+                    aggregateCommand.setTargetColumnName(params[3]);
+                    aggregateCommand.setOperation(params[4]);
+                    aggregateCommand.execute();
+                } else {
+                    System.out.println("Invalid parameters. Usage: aggregate <tableName> <searchColumnName> <searchValue> <targetColumnName> <operation>");
+                }
+                return;
+            }
+
 
             command.execute();
 

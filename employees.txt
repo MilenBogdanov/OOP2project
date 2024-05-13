@@ -5,7 +5,6 @@ column: first_name STRING
 column: last_name STRING
 column: salary NULL
 Rows:
-1 John Doe null
 2 Jane Smith null
 3 Michael Johnson null
 4 Emily Davis null
