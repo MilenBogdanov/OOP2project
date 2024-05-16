@@ -54,4 +54,7 @@ public class Database {
         }
         return null;
     }
+    public boolean isEmpty() {
+        return tables.isEmpty();
+    }
 }

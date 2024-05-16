@@ -1,4 +1,5 @@
 package project.OOP2.f22621615.functionality;
+
 import project.OOP2.f22621615.database.Column;
 import project.OOP2.f22621615.database.Database;
 import project.OOP2.f22621615.database.Row;
@@ -15,7 +16,6 @@ public class DeleteCommand implements Command {
     private String tableName;
     private String searchColumnName;
     private Object searchColumnValue;
-    private String fileName;
 
     public DeleteCommand(Database database, String tableName, String searchColumnName, Object searchColumnValue) {
         this.database = database;
@@ -30,18 +30,20 @@ public class DeleteCommand implements Command {
         if (table != null) {
             Iterator<Row> iterator = table.getRows().iterator();
             boolean deleted = false;
+            boolean noRowsFound = true;
             while (iterator.hasNext()) {
                 Row row = iterator.next();
                 Object columnValue = row.getValue(searchColumnName);
                 if (columnValue != null && columnValue.equals(searchColumnValue)) {
-                    iterator.remove(); // Remove the row
+                    iterator.remove();
                     deleted = true;
+                    noRowsFound = false;
                 }
             }
             if (deleted) {
                 System.out.println("Rows deleted successfully from table '" + tableName + "'.");
                 updateFile(table);
-            } else {
+            } else if (noRowsFound) {
                 System.out.println("No rows found matching the search criteria.");
             }
         } else {

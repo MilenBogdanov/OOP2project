@@ -24,6 +24,10 @@ public class OpenFileCommand implements Command, FileCommand {
             System.out.println("Please specify a file to open.");
             return;
         }
+//        if (fileOpened) {
+//            //System.out.println("The file is already opened.");
+//            return;
+//        }
 
         try {
             File file = new File(fileName);
@@ -38,6 +42,7 @@ public class OpenFileCommand implements Command, FileCommand {
                     fileContent.append(line).append("\n");
                 }
                 if (!fileOpened) {
+                    System.out.println("Opening file... ");
                     System.out.println("Successfully opened " + file.getName());
                     fileOpened = true;
                 }

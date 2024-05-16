@@ -20,42 +20,29 @@ public class DescribeTableCommand implements Command {
 
     @Override
     public void execute() {
-        describe(tableName);
+        if (!database.isEmpty()) {
+            describe(tableName);
+        } else {
+            System.out.println("Database is empty. Load a table first.");
+        }
     }
 
     public void describe(String tableName) {
         Table table = database.getTableByName(tableName);
         if (table != null) {
-            System.out.println("TableName: " + tableName);
-            System.out.println("----------------------------------------------------------");
+            System.out.println("Table: " + tableName);
+            System.out.println("+----------------------+------------+");
+            System.out.println("| Column Name          | Data Type  |");
+            System.out.println("+----------------------+------------+");
             List<Column> columns = table.getColumns();
             for (Column column : columns) {
                 String columnName = column.getName();
-                String dataTypeStr = column.getType().toString();
-                int typeStart = 0;
-                int typeEnd = dataTypeStr.indexOf("(");
-                if (typeEnd == -1) {
-                    typeEnd = dataTypeStr.length();
-                }
-                String parsedDataTypeStr = dataTypeStr.substring(typeStart, typeEnd);
-                System.out.printf("%s - ", columnName);
-                DataType dataType;
-                if (parsedDataTypeStr.equals("INTEGER")) {
-                    dataType = DataType.INTEGER;
-                } else if (parsedDataTypeStr.equals("STRING")) {
-                    dataType = DataType.STRING;
-                } else if (parsedDataTypeStr.equals("FLOAT")) {
-                    dataType = DataType.FLOAT;
-                } else if (parsedDataTypeStr.equals("NULL")) {
-                    dataType = DataType.NULL;
-                }
-                else {
-                    System.out.println("Error: Unrecognized data type '" + parsedDataTypeStr + "'.");
-                    return;
-                }
-                System.out.println(dataType);
+                DataType dataType = column.getType();
+                System.out.printf("| %-20s | %-10s |%n", columnName, dataType);
             }
-            System.out.println("----------------------------------------------------------");
+            System.out.println("+----------------------+------------+");
+        } else {
+         System.out.println("Table '" + tableName + "' not found.");
         }
     }
 }

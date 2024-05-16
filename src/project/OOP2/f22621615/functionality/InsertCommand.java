@@ -43,16 +43,12 @@ public class InsertCommand implements Command {
         String fileName = table.getAssociatedTextFile();
         try {
             FileWriter writer = new FileWriter(fileName, true);
+
             StringBuilder newRow = new StringBuilder();
             for (String value : values) {
                 newRow.append(value).append(" ");
             }
             newRow.append(System.lineSeparator());
-
-            boolean isEmptyFile = table.getRows().isEmpty();
-            if (!isEmptyFile) {
-                writer.append(System.lineSeparator());
-            }
 
             writer.write(newRow.toString());
             writer.close();

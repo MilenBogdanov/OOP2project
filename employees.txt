@@ -4,15 +4,17 @@ column: id INTEGER
 column: first_name STRING
 column: last_name STRING
 column: salary NULL
+column: city STRING
 Rows:
-2 Jane Smith null
-3 Michael Johnson null
-4 Emily Davis null
-5 Robert Wilson null
-6 Susan Brown null
-7 David Martinez null
-8 Lisa Taylor null
-9 Steven Anderson null
-10 Karen Hernandez null
-11 Matthew Thomas null
-12 Amy White null
+4 Emily Davis null null
+5 Robert Wilson null null
+6 Susan Brown null null
+7 David Martinez null null
+8 Lisa Taylor null null
+9 Steven Anderson null null
+10 Karen Hernandez null null
+11 Matthew Thomas null null
+12 Amy White null null
+14 Milen Bogdanov null null 
+14 Milen Bogdanov null null 
+14 Milen Bogdanov null null 
