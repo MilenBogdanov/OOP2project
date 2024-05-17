@@ -10,13 +10,23 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
-
+/**
+ * Command to delete rows from a table based on a specified column value.
+ */
 public class DeleteCommand implements Command {
     private final Database database;
     private String tableName;
     private String searchColumnName;
     private Object searchColumnValue;
 
+    /**
+     * Constructs a DeleteCommand with the specified database, table name, search column name, and search column value.
+     *
+     * @param database           The database containing the table from which rows will be deleted.
+     * @param tableName          The name of the table.
+     * @param searchColumnName   The name of the column to search for the value.
+     * @param searchColumnValue  The value to search for in the specified column.
+     */
     public DeleteCommand(Database database, String tableName, String searchColumnName, Object searchColumnValue) {
         this.database = database;
         this.tableName = tableName;
@@ -24,6 +34,9 @@ public class DeleteCommand implements Command {
         this.searchColumnValue = searchColumnValue;
     }
 
+    /**
+     * Executes the command to delete rows from the table.
+     */
     @Override
     public void execute() {
         Table table = database.getTableByName(tableName);
@@ -51,6 +64,11 @@ public class DeleteCommand implements Command {
         }
     }
 
+    /**
+     * Updates the associated text file with the modified table structure.
+     *
+     * @param table The table from which rows were deleted.
+     */
     private void updateFile(Table table) {
         String fileName = table.getAssociatedTextFile();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
@@ -73,15 +91,27 @@ public class DeleteCommand implements Command {
             System.out.println("Error updating file: " + e.getMessage());
         }
     }
-
+    /**
+     * Sets the name of the table.
+     *
+     * @param tableName The name of the table.
+     */
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
-
+    /**
+     * Sets the name of the column to search in.
+     *
+     * @param searchColumnName The name of the column to search in.
+     */
     public void setSearchColumnName(String searchColumnName) {
         this.searchColumnName = searchColumnName;
     }
-
+    /**
+     * Sets the value to search for in the specified column.
+     *
+     * @param searchColumnValue The value to search for.
+     */
     public void setSearchColumnValue(Object searchColumnValue) {
         this.searchColumnValue = searchColumnValue;
     }

@@ -90,16 +90,26 @@ public class PrintTableRowsCommand implements Command {
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-
+/**
+ * Command to print rows of a table with pagination.
+ */
 public class PrintTableRowsCommand implements Command {
     private Database database;
     private String tableName;
     private int pageSize = 5;
 
+    /**
+     * Constructs a PrintTableRowsCommand with the specified database.
+     *
+     * @param database The database containing the table.
+     */
     public PrintTableRowsCommand(Database database) {
         this.database = database;
     }
 
+    /**
+     * Executes the command to print rows of the specified table.
+     */
     @Override
     public void execute() {
         Table table = database.getTableByName(tableName);
@@ -111,6 +121,11 @@ public class PrintTableRowsCommand implements Command {
         }
     }
 
+    /**
+     * Browses the table with pagination.
+     *
+     * @param table The table to browse.
+     */
     private void browseTable(Table table) {
         List<Row> rows = table.getRows();
         Iterator<Row> iterator = rows.iterator();
@@ -159,6 +174,11 @@ public class PrintTableRowsCommand implements Command {
         }
     }
 
+    /**
+     * Prints the header of the table.
+     *
+     * @param table The table.
+     */
     private void printHeader(Table table) {
         for (String columnName : table.getColumnNames()) {
             System.out.print("|");
@@ -171,6 +191,12 @@ public class PrintTableRowsCommand implements Command {
         System.out.println("|");
     }
 
+    /**
+     * Prints a row of the table.
+     *
+     * @param row   The row to print.
+     * @param table The table.
+     */
     private void printRow(Row row, Table table) {
         for (String columnName : table.getColumnNames()) {
             System.out.print("|");
@@ -181,6 +207,11 @@ public class PrintTableRowsCommand implements Command {
         System.out.println("|");
     }
 
+    /**
+     * Sets the name of the table to print.
+     *
+     * @param tableName The name of the table.
+     */
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }

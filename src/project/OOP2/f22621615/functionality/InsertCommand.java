@@ -7,18 +7,30 @@ import project.OOP2.f22621615.interfaces.Command;
 
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Command to insert a row into a table.
+ */
 public class InsertCommand implements Command {
     private Database database;
     private String tableName;
     private String[] values;
 
+    /**
+     * Constructs an InsertCommand with the specified database, table name, and values.
+     *
+     * @param database  The database containing the table to insert into.
+     * @param tableName The name of the table to insert into.
+     * @param values    The values to insert into the table.
+     */
     public InsertCommand(Database database, String tableName, String[] values) {
         this.database = database;
         this.tableName = tableName;
         this.values = values;
     }
 
+    /**
+     * Executes the command to insert a row into the table.
+     */
     @Override
     public void execute() {
         Table table = database.getTableByName(tableName);
@@ -39,6 +51,11 @@ public class InsertCommand implements Command {
         }
     }
 
+    /**
+     * Updates the associated text file with the newly inserted row.
+     *
+     * @param table The table to update.
+     */
     private void updateTextFile(Table table) {
         String fileName = table.getAssociatedTextFile();
         try {
@@ -57,10 +74,20 @@ public class InsertCommand implements Command {
         }
     }
 
+    /**
+     * Sets the name of the table to insert into.
+     *
+     * @param tableName The name of the table.
+     */
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
 
+    /**
+     * Sets the values to insert into the table.
+     *
+     * @param values The values to insert.
+     */
     public void setValues(String[] values) {
         this.values = values;
     }

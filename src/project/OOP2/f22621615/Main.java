@@ -191,8 +191,15 @@ import project.OOP2.f22621615.database.Database;
 import project.OOP2.f22621615.enums.CommandEnum;
 
 import java.util.Scanner;
-
+/**
+ * The main class to run the program.
+ */
 public class Main {
+    /**
+     * The main method to start the program.
+     *
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
         System.setProperty("user.dir", "D:\\OOP2\\project\\OOP2_project");
         StringBuilder fileContent = new StringBuilder();
@@ -201,7 +208,9 @@ public class Main {
         CommandCenter commandCenter = new CommandCenter(fileContent, database);
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Welcome to the File Manager!");
+        System.out.println("Welcome to OOP-1 project!");
+        System.out.println("Author - Milen Bogdanov, fn22621615");
+        System.out.println();
         System.out.println("Current working directory: " + System.getProperty("user.dir"));
         while (true) {
             System.out.print("Enter a command: ");

@@ -558,13 +558,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * The {@code CommandCenter} class manages the execution of various commands and operations in the system.
+ * It initializes commands, executes them based on user input, and handles interactions with files and databases.
+ */
 public class CommandCenter {
     private StringBuilder fileContent;
     private Map<CommandEnum, Command> commands;
     private OpenFileCommand openFileCommand;
     private Database database;
     private String lastLoadedFile;
-
+    /**
+     * Parses the string value into its corresponding data type.
+     *
+     * @param value    The string value to parse.
+     * @param dataType The data type to parse the value into.
+     * @return The parsed object with the appropriate data type, or null if the data type is NULL.
+     */
     private Object parseColumnValue(String value, DataType dataType) {
         switch (dataType) {
             case INTEGER:
@@ -572,18 +582,28 @@ public class CommandCenter {
             case FLOAT:
                 return Float.parseFloat(value);
             case STRING:
-            default:
                 return value;
+            case NULL:
+            default:
+                return null;
         }
     }
 
+    /**
+     * Constructs a new {@code CommandCenter} with the given file content and database.
+     *
+     * @param fileContent The content of the currently opened file.
+     * @param database    The database instance used for storing and managing tables.
+     */
     public CommandCenter(StringBuilder fileContent, Database database) {
         this.fileContent = fileContent;
         this.database = database;
         this.openFileCommand = new OpenFileCommand(this.fileContent);
         initializeCommands();
     }
-
+    /**
+     * Initializes the commands supported by the system.
+     */
     private void initializeCommands() {
         commands = new HashMap<>();
         commands.put(CommandEnum.OPEN, openFileCommand);
@@ -606,7 +626,12 @@ public class CommandCenter {
         commands.put(CommandEnum.COUNT, new CountRowsCommand(database, null, null, null));
         commands.put(CommandEnum.AGGREGATE, new AggregateCommand(database));
     }
-
+    /**
+     * Executes the specified command with the given parameter.
+     *
+     * @param commandName The name of the command to execute.
+     * @param parameter   The parameter associated with the command.
+     */
     public void executeCommand(CommandEnum commandName, String parameter) {
         if (commandName == CommandEnum.LOAD && parameter.equals(lastLoadedFile)) {
             System.out.println("File '" + parameter + "' is already loaded.");

@@ -9,7 +9,9 @@ import project.OOP2.f22621615.interfaces.Command;
 
 import java.util.List;
 import java.text.DecimalFormat;
-
+/**
+ * Command to perform aggregate operations on numeric columns of a table.
+ */
 public class AggregateCommand implements Command {
     private Database database;
     private String tableName;
@@ -17,31 +19,58 @@ public class AggregateCommand implements Command {
     private Object searchValue;
     private String targetColumnName;
     private String operation;
-
+    /**
+     * Constructs an AggregateCommand with the specified database.
+     *
+     * @param database The database containing the table to perform aggregate operations on.
+     */
     public AggregateCommand(Database database) {
         this.database = database;
     }
-
+    /**
+     * Sets the name of the table.
+     *
+     * @param tableName The name of the table.
+     */
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
-
+    /**
+     * Sets the name of the column to search in.
+     *
+     * @param searchColumnName The name of the column to search in.
+     */
     public void setSearchColumnName(String searchColumnName) {
         this.searchColumnName = searchColumnName;
     }
-
+    /**
+     * Sets the value to search for in the specified column.
+     *
+     * @param searchValue The value to search for.
+     */
     public void setSearchValue(Object searchValue) {
         this.searchValue = searchValue;
     }
-
+    /**
+     * Sets the name of the target column to perform the aggregate operation on.
+     *
+     * @param targetColumnName The name of the target column.
+     */
     public void setTargetColumnName(String targetColumnName) {
         this.targetColumnName = targetColumnName;
     }
-
+    /**
+     * Sets the type of aggregate operation to perform.
+     *
+     * @param operation The aggregate operation to perform.
+     */
     public void setOperation(String operation) {
         this.operation = operation;
     }
-
+    /**
+     * Executes the command to perform the aggregate operation.
+     * Options: min, max, product, sum.
+     */
     @Override
     public void execute() {
         Table table = database.getTableByName(tableName);
@@ -94,7 +123,12 @@ public class AggregateCommand implements Command {
             System.out.println("Aggregate result: " + result + " BGN");
         }
     }
-
+    /**
+     * Checks if the given data type is numeric.
+     *
+     * @param dataType The data type to check.
+     * @return True if the data type is numeric, false otherwise.
+     */
     private boolean isNumericType(DataType dataType) {
         return dataType == DataType.INTEGER || dataType == DataType.FLOAT;
     }

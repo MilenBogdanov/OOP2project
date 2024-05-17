@@ -8,16 +8,27 @@ import project.OOP2.f22621615.enums.DataType;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Command to describe the structure of a table.
+ */
 public class DescribeTableCommand implements Command {
     private final Database database;
     private final String tableName;
 
+    /**
+     * Constructs a DescribeTableCommand with the specified database and table name.
+     *
+     * @param database   The database containing the table to describe.
+     * @param tableName  The name of the table to describe.
+     */
     public DescribeTableCommand(Database database, String tableName) {
         this.database = database;
         this.tableName = tableName;
     }
 
+    /**
+     * Executes the command to describe the structure of the table.
+     */
     @Override
     public void execute() {
         if (!database.isEmpty()) {
@@ -27,6 +38,11 @@ public class DescribeTableCommand implements Command {
         }
     }
 
+    /**
+     * Describes the structure of the specified table.
+     *
+     * @param tableName The name of the table to describe.
+     */
     public void describe(String tableName) {
         Table table = database.getTableByName(tableName);
         if (table != null) {

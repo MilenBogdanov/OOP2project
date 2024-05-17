@@ -4,18 +4,30 @@ import project.OOP2.f22621615.database.Table;
 import project.OOP2.f22621615.interfaces.Command;
 
 import java.io.*;
-
+/**
+ * Command to rename a table.
+ */
 public class RenameTableCommand implements Command {
     private Database database;
     private String oldName;
     private String newName;
 
+    /**
+     * Constructs a RenameTableCommand with the specified database, old table name, and new table name.
+     *
+     * @param database The database containing the table.
+     * @param oldName  The old name of the table.
+     * @param newName  The new name of the table.
+     */
     public RenameTableCommand(Database database, String oldName, String newName) {
         this.database = database;
         this.oldName = oldName;
         this.newName = newName;
     }
 
+    /**
+     * Executes the command to rename the table.
+     */
     @Override
     public void execute() {
         Table table = database.getTableByName(oldName);
@@ -30,6 +42,12 @@ public class RenameTableCommand implements Command {
         }
     }
 
+    /**
+     * Updates the table name in the associated text file.
+     *
+     * @param oldName The old name of the table.
+     * @param newName The new name of the table.
+     */
     private void updateTableNameInFile(String oldName, String newName) {
         try {
             File file = new File(oldName + ".txt");
@@ -53,10 +71,20 @@ public class RenameTableCommand implements Command {
         }
     }
 
+    /**
+     * Sets the old name of the table.
+     *
+     * @param oldName The old name of the table.
+     */
     public void setOldName(String oldName) {
         this.oldName = oldName;
     }
 
+    /**
+     * Sets the new name of the table.
+     *
+     * @param newName The new name of the table.
+     */
     public void setNewName(String newName) {
         this.newName = newName;
     }

@@ -9,18 +9,30 @@ import project.OOP2.f22621615.interfaces.Command;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Command to export a table to a text file.
+ */
 public class ExportTableCommand implements Command {
     private Database database;
     private String tableName;
     private String fileName;
 
+    /**
+     * Constructs an ExportTableCommand with the specified database, table name, and file name.
+     *
+     * @param database   The database containing the table to export.
+     * @param tableName  The name of the table to export.
+     * @param fileName   The name of the file to export the table to.
+     */
     public ExportTableCommand(Database database, String tableName, String fileName) {
         this.database = database;
         this.tableName = tableName;
         this.fileName = fileName;
     }
 
+    /**
+     * Executes the command to export the table to a text file.
+     */
     @Override
     public void execute() {
         Table table = database.getTableByName(tableName);
@@ -31,6 +43,11 @@ public class ExportTableCommand implements Command {
         }
     }
 
+    /**
+     * Exports the specified table to the specified file.
+     *
+     * @param table The table to export.
+     */
     private void exportTable(Table table) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write("TableName: " + table.getName() + "\n");
@@ -57,10 +74,19 @@ public class ExportTableCommand implements Command {
         }
     }
 
+    /**
+     * Sets the name of the table to export.
+     *
+     * @param tableName The name of the table.
+     */
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
-
+    /**
+     * Sets the name of the file to export the table to.
+     *
+     * @param fileName The name of the file.
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }

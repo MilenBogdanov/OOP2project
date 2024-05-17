@@ -1,8 +1,15 @@
 package project.OOP2.f22621615.basic_filefunctions;
-
 import project.OOP2.f22621615.interfaces.Command;
 
+/**
+ * The {@code PrintHelpCommand} class represents a command to print help information.
+ * It implements the {@link Command} interface and defines behavior to execute the command.
+ */
 public class PrintHelpCommand implements Command {
+    /**
+     * Executes the print help command.
+     * Prints information about the supported commands and their descriptions.
+     */
     @Override
     public void execute() {
         System.out.println("|-------------------------------------------------------------------------------------------|");
